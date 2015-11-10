@@ -2,6 +2,7 @@ from math import exp
 from math import log
 import matplotlib.pyplot as plt
 
+
 def compositeTrapezoidalApprox(f,n,a,b):
 	h = float(b - a)/n
 	s = f(a) + f(b)

@@ -2,11 +2,13 @@ import numpy as np
 import numpy.linalg as linalg
 
 def secant(shoot,alpha,N,f,s1,s0,threshhold):
+    sa = [s0,s1]
     while(abs(shoot(alpha,s1,N,f))>threshhold):
         temp=s1
         s1=s1-(shoot(alpha,s1,N,f)*(s1-s0))/(shoot(alpha,s1,N,f)-shoot(alpha,s0,N,f))
         s0=temp
-    return s1
+        sa.append(s1)
+    return sa
 
 
 def main():
@@ -28,6 +30,8 @@ def main():
             #print u,up    
         return u-beta
    
-    alpha_p = secant(euleur_err,alpha,N,f,s1,s0,threshhold)
-    print euleur_err(alpha,alpha_p,N,f)
+    sa=secant(euleur_err,alpha,N,f,s1,s0,threshhold)
+    alpha_ps=[euleur_err(alpha,a_p,N,f) for a_p in sa]
+    print sa
+    print alpha_ps
 main()

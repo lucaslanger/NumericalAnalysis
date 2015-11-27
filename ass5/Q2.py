@@ -1,5 +1,6 @@
 import numpy as np
 import numpy.linalg as linalg
+import matplotlib.pyplot as plt
 
 def secant(shoot,alpha,N,f,s1,s0,threshhold):
     sa = [s0,s1]
@@ -9,7 +10,6 @@ def secant(shoot,alpha,N,f,s1,s0,threshhold):
         s0=temp
         sa.append(s1)
     return sa
-
 
 def main():
     alpha=0
@@ -27,11 +27,19 @@ def main():
             x = (float(i)/N)
             u += (1.0/N)*u_p*(x)
             u_p += (1.0/N)*(-1)*f(x)*((1+(u_p**2))**(1.5))
-            #print u,up    
         return u-beta
    
-    sa=secant(euleur_err,alpha,N,f,s1,s0,threshhold)
-    alpha_ps=[euleur_err(alpha,a_p,N,f) for a_p in sa]
-    print sa
-    print alpha_ps
+    sg=secant(euleur_err,alpha,N,f,s1,s0,threshhold)
+    errors=[abs(euleur_err(alpha,a_p,N,f)) for a_p in sg]
+    print "\nSlopes guesses: ", sg
+    print "\nErrors:", errors 
+    print "\nNumber of iterations:", len(sg)
+
+    plt.plot(sg,errors,marker='o', linestyle='--', color='b')
+
+    plt.xlabel("slope_i")
+    plt.ylabel("error_i")
+    plt.title("Error as a function of successive initial slope guesses")
+    plt.grid(True)
+    plt.show()
 main()
